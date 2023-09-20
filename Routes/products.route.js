@@ -3,22 +3,12 @@ const router=express.Router();
 const Product=require('../Models/Product.model')
 const createErrors=require('http-errors')
 
-
+const ProductController=require('../Controller/ProductController')
 // getting data using async await
-router.get('/',async(req,res,next)=>{
-    try {
-        const data= await Product.find({price:{$lt:13000}},{__v:0,_id:0}) // documents having price less than 13000 + not show __v,id attributes
-        //Product.find()=> will show all documents
-        res.send(data)
-    } catch (error) {
-        console.log(error.message);
-    }
-})
+router.get('/',ProductController.getAllProducts)
 
 
 router.post('/',async(req,res,next)=>{
-   
-
     //inserting data in database
     const p1=new Product({
         name:"Samsung Galaxy m21",
@@ -35,27 +25,17 @@ router.post('/',async(req,res,next)=>{
 
     //saving data in database using async await..
     const result=await p1.save()
-
-    
     res.send(result)  
 })
 
-router.get('/:id',async(req,res,next)=>{
-    try {
-        const id=req.params.id; // getting id from routes
-    const data=await Product.find({_id:id},{})
-    if(!data){
-        throw createErrors(404,'Product does not exist')
-    }
-    res.send(data);
-    } catch (error) {
-        next(error)
-    }
-})
+
+
+// geting products by id
+router.get('/:id',ProductController.getProductsById)
 
 
 
-
+// we can also put these in ProductController
 router.patch('/:name',async(req,res,next)=>{
     const name=req.params.name;
     try {

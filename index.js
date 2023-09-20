@@ -58,6 +58,8 @@ app.use((err,req,res,next)=>{
     })
 })
 
+
+
 app.listen(1000,()=>{
-    console.log('listening');
+    console.log('server started at 1000 port no');
 })
