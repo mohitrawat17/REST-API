@@ -25,7 +25,7 @@ app.all('/test',(req,res,next)=>{
     res.send(req.query);
 
 })
-
+ 
 
 //query parameters
 // url=http://localhost:1000/test1/45
@@ -47,6 +47,7 @@ app.use((req,res,next)=>{
 
 //error handler
 //this error handler works from anywhere of our route
+// next(error) will come here
 app.use((err,req,res,next)=>{
     res.status(err.status || 500);
     res.send({

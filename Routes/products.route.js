@@ -1,6 +1,7 @@
 const express=require('express');
 const router=express.Router();
 const Product=require('../Models/Product.model')
+const createErrors=require('http-errors')
 
 
 // getting data using async await
@@ -40,9 +41,16 @@ router.post('/',async(req,res,next)=>{
 })
 
 router.get('/:id',async(req,res,next)=>{
-    const id=req.params.id; // getting id from routes
+    try {
+        const id=req.params.id; // getting id from routes
     const data=await Product.find({_id:id},{})
+    if(!data){
+        throw createErrors(404,'Product does not exist')
+    }
     res.send(data);
+    } catch (error) {
+        next(error)
+    }
 })
 
 
